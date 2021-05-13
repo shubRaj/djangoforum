@@ -1,0 +1,39 @@
+<!--User Section-->
+{% load static %}
+{% if not request.user_agent.is_desktop %}
+<a href="#" class="avatar"><img src="{{user.user_profile.profile.url}}" alt="avatar"></a>
+{% else %}
+<div class="posts__section-right">
+    <div class="posts__users js-dropdown">
+        <div>
+            <a href="#" class="avatar"><img src="{{user.user_profile.profile.url}}" alt="{{user.first_name}}" data-dropdown-btn="{{user.id}}"></a>
+            <div class="posts__users-dropdown dropdown dropdown--user dropdown--reverse-y" data-dropdown-list="{{user.id}}">
+                <div class="dropdown__user">
+                    <a href="#" class="dropdown__user-label"><img src="{{user.user_profile.profile.url}}" alt="{{user.first_name}}"></a>
+                    <div class="dropdown__user-nav">
+                        <a href="#"><i class="icon-Add_User"></i></a>
+                        <a href="#"><i class="icon-Message"></i></a>
+                    </div>
+                    <div class="dropdown__user-info">
+                        <a href="#">{{user.created_by.get_full_name}}</a>
+                        <p>Last Online: {{user.last_login|user_last_online_timesince}}.<br/> Joined: {{user.date_joined|date:"d M,Y"}}.</p>
+                    </div>
+                    <div class="dropdown__user-icons">
+                        <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Intermediate.svg' %}" alt="user-icon"></a>
+                        <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Bot.svg' %}" alt="user-icon"></a>
+                        <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Animal_Lover.svg' %}" alt="user-icon"></a>
+                    </div>
+                    <div class="dropdown__user-statistic">
+                        <div>Threads - <span>{{user.user_thread.count}}</span></div>
+                        <div>Posts - <span>{{user.user_reply.count}}</span></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!--
+            add more user here
+        -->
+    </div>
+</div>
+{% endif %}

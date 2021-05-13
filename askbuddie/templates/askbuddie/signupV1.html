@@ -1,0 +1,108 @@
+{% extends 'askbuddie/credentialBase.html' %} {% block title %}Sign Up{% endblock title %} 
+
+{% block content %}
+ {% for error in form.username.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="form__field form__field--email">
+        <label class="label label--icon" for="login__email">
+            <svg class="icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
+            </svg>
+            <span class="hidden">Username</span>
+        </label>
+        <div class="form__input-wrapper">
+            <input id="login__email" type="text" autocomplete="off" name="username" class="form__input" placeholder="Username" required>
+            <!--
+      FF is ignoring position relative of form__input-wrapper so added a wrapper for .underline.
+      NOTE: just the precense of this comment fixes this FF issue (making the underline-wrapper unncessary).
+      But I'd rather not rely on a comment.
+    -->
+            <div class="underline-wrapper">
+                <span class="underline"></span>
+            </div>
+        </div>
+    </div>
+    {% for error in form.email.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="form__field form__field--email">
+        <label class="label label--icon" for="login__email">
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"></path>
+                <polyline points="22,6 12,13 2,6"></polyline>
+            </svg>
+            <span class="hidden">Email</span>
+        </label>
+        <div class="form__input-wrapper">
+            <input id="login__email" type="text" autocomplete="off" name="email" class="form__input" placeholder="Email" required>
+            <!--
+      FF is ignoring position relative of form__input-wrapper so added a wrapper for .underline.
+      NOTE: just the precense of this comment fixes this FF issue (making the underline-wrapper unncessary).
+      But I'd rather not rely on a comment.
+    -->
+            <div class="underline-wrapper">
+                <span class="underline"></span>
+            </div>
+        </div>
+    </div>
+    {% for error in form.password2.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="form__field form__field--password">
+        <label class="label label--icon" for="login__password">
+            <svg class="icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use>
+            </svg>
+            <span class="hidden">Password</span>
+        </label>
+        <div class="form__input-wrapper">
+            <input id="login__password" type="password" name="password1" class="form__input" placeholder="Password" required>
+            <!--
+      FF is ignoring position relative of form__input-wrapper so added a wrapper for .underline.
+      NOTE: just the precense of this comment fixes this FF issue (making the underline-wrapper unncessary).
+      But I'd rather not rely on a comment.
+    -->
+            <div class="underline-wrapper">
+                <span class="underline"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="form__field form__field--password">
+        <label class="label label--icon" for="login__password">
+            <svg class="icon">
+                <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#lock"></use>
+            </svg>
+            <span class="hidden">Password</span>
+        </label>
+        <div class="form__input-wrapper">
+            <input id="login__password" type="password" name="password2" class="form__input" placeholder="Confirm Password" required>
+            <!--
+      FF is ignoring position relative of form__input-wrapper so added a wrapper for .underline.
+      NOTE: just the precense of this comment fixes this FF issue (making the underline-wrapper unncessary).
+      But I'd rather not rely on a comment.
+    -->
+            <div class="underline-wrapper">
+                <span class="underline"></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="login-actions-container">
+        <div class="form__field form__field--remember-me">
+            <label class="label label--remember-me" for="login__remember-me">
+                <input id="login__remember-me" value="True" name="remember" type="checkbox">
+                <span class="checkmark"></span>
+                <span class="remember-me-text">Remember me</span>
+            </label>
+        </div>
+        <a class="forgot-password" href="{% url 'app_askbuddie:askbuddie_login' %}">Already have an account?</a>
+        <div class="form__field form__field--submit">
+            {% include 'askbuddie/captcha.html' %}
+            <input type="submit" value="Sign Up">
+        </div>
+    </div>
+
+{% endblock content %}

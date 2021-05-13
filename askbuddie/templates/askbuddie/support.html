@@ -1,0 +1,60 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %} {{config.title}} - Support {% endblock title %}
+{% block author %} {{request.get_host}} {% endblock author %}
+{% block description %}{{request.get_host}} support.{{config.description}}{% endblock description %}
+{% block content %}
+<!-- MAIN -->
+<main>
+    <div class="container">
+        <form method="post">
+            {% csrf_token %}
+            <div class="create">
+                <div class="create__head">
+                    <div class="create__title"><img src="{% static 'askbuddie/fonts/icons/main/New_Topic.svg' %}" alt="New topic">Support</div>
+                </div>
+                {% for error in form.non_field_errors %}
+                <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+                {% for message in messages %}
+                <div class="alert alert-{{message.level_tag}}">{{message.message}}</div>
+                {% endfor %}
+                {% for error in form.regarding.errors %}
+                <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+                <div class="create__section">
+                    <label class="create__label" for="title">Regarding</label>
+                    <input type="text" class="form-control" id="title" name="regarding" placeholder="Support regarding" required>
+                </div>
+                {% if not user.is_authenticated %}
+                {% for error in form.email.errors %}
+                <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+                <div class="create__section">
+                    <label class="create__label" for="title">Email</label>
+                    <input type="text" class="form-control" id="email" name="email" required placeholder="shuvraj1234@gmail.com" autocomplete="off">
+                </div>
+                {% endif %}
+                {% for error in form.description.errors %}
+                <div class="alert alert-danger">{{error}}</div>
+                {% endfor %}
+                <div class="create__section create__textarea">
+                    <label class="create__label" for="description">Description</label>
+                    <textarea class="form-control" id="description" name="description" required placeholder="You walked into the room and now my heart has been stolen You took me back in time to when I was unbroken Now you're all I want And I knew it from the very first moment 'Cause a light came on when I heard that song and I want you to sing it again I swear that every word you sing, you wrote them for me Like it was a private show, I know you never saw me When the lights come on and I'm on my own Will you be there to sing it again? Could I be the one you talk about in all your stories Can I be him?"></textarea>
+                </div>
+                <label class="signup__label" for="password">Human Verification</label>
+                <div class="g-recaptcha" data-sitekey="6LeqhmIaAAAAALijNVpQagT78wvzjGi8I05PencJ"></div>
+                <br/>
+                <div class="create__footer">
+                    <button type="reset" class="create__btn-cansel btn">Cancel</button>
+                    <button type="submit" class="create__btn-create btn btn--type-02">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</main>
+{% endblock content %}
+{% block extra_script %}
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
+{% endblock extra_script %}

@@ -1,0 +1,24 @@
+{% extends 'base.html' %} 
+{% block author %} {{request.get_host}} {% endblock author %} 
+{% block title %} {{page.title}} - {{config.title}} {% endblock title %} 
+{% block content %}
+
+<div class="topics">
+    <div class="topics__heading">
+        <h2 class="topics__heading-title">{{page.title}}</h2>
+    </div>
+    <div class="topics__body">
+        <div class="topics__content">
+            <div class="topic">
+                <div class="topic__content">
+                    <div class="topic__text">
+
+                        {{page.description|safe}}
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

@@ -1,0 +1,31 @@
+{% extends 'askbuddie/credentialBase.html' %} {% block title %} Forgot Password? {% endblock title %} {% block content %}
+<div class="form__field form__field--email">
+    <label class="label label--icon" for="login__email">
+      <svg class="icon">
+        <use xmlns:xlink="http://www.w3.org/1999/xlink" xlink:href="#user"></use>
+      </svg>
+      <span class="hidden">Email</span>
+    </label>
+    <div class="form__input-wrapper">
+        <input id="login__email" type="text" autocomplete="off" name="username" class="form__input" placeholder="Email or Username" required>
+        <!--
+              FF is ignoring position relative of form__input-wrapper so added a wrapper for .underline.
+              NOTE: just the precense of this comment fixes this FF issue (making the underline-wrapper unncessary).
+              But I'd rather not rely on a comment.
+            -->
+        <div class="underline-wrapper">
+            <span class="underline"></span>
+        </div>
+    </div>
+</div>
+<!--Test-->
+<input id="login__password" type="hidden">
+<div class="login-actions-container">
+
+    <div class="form__field form__field--submit">
+        {% include 'askbuddie/captcha.html' %}
+        <input type="submit" value="Reset Password">
+    </div>
+    <a href="{% url 'app_askbuddie:askbuddie_signup' %}">Don't have an account?</a>
+</div>
+{% endblock content %}

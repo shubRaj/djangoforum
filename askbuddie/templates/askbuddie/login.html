@@ -1,0 +1,31 @@
+{% extends 'askbuddie/credentialBase.html' %} {% block title %} Login {% endblock title %} {% block extra_header %}
+<div class="signup__header-content">
+    <p><a href="{% url 'app_askbuddie:askbuddie_signup' %}">Don't Have an Account?</a></p>
+    <a href="{% url 'app_askbuddie:askbuddie_signup' %}" class="btn">Create Account</a>
+</div>
+{% endblock extra_header %} {% block content %}
+<div class="signup__head">
+    <h3>Log Into {{config.header}} </h3>
+    <p>By logging into {{config.header}} you can start posting, replying to topics, earn badges, favorite, vote topics and many more.</p>
+</div>
+<form class="signup__form" method="post" name="form">
+    {% csrf_token %} {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="signup__section">
+        <label class="signup__label" for="username">Username or Email</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="shubraj or shuvraj1234@gmail.com" autocomplete="off">
+    </div>
+    <div class="signup__section">
+        <label class="signup__label" for="password">Password</label>
+        <div class="message-input">
+            <input type="password" class="form-control" id="password" name="password" placeholder="*********">
+            <!-- <span class="message-input__strong">strong</span> -->
+        </div>
+    </div>
+    <label class="signup__label" for="password">Human Verification</label>
+    <div class="g-recaptcha" data-sitekey="6LeqhmIaAAAAALijNVpQagT78wvzjGi8I05PencJ"></div>
+    <br/>
+    <button type="submit" class="signup__btn-create btn btn--type-02">Sign In</button>
+</form>
+{% endblock content %}

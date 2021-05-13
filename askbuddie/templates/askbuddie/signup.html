@@ -1,0 +1,90 @@
+{% extends 'askbuddie/credentialBase.html' %} {% block title %} Sign Up {% endblock title %} {% block extra_header %}
+<div class="signup__header-content">
+    <p><a href="{% url 'app_askbuddie:askbuddie_login' %}">Already have an account?</a></p>
+    <a href="{% url 'app_askbuddie:askbuddie_login' %}" class="btn">Sign In</a>
+</div>
+{% endblock extra_header %} {% block content %}
+<div class="signup__head">
+    <h3>Create an Account on {{config.header}} </h3>
+    <p>By signing up you can start posting, replying to topics, earn badges, favorite, vote topics and many more.</p>
+</div>
+<form class="signup__form" method="post" name="form">
+    {% csrf_token %} {% for error in form.terms.errors %}
+    <div class="alert alert-{{error.level_tags}}">{{error}}</div>
+    {% endfor %} {% for error in form.non_field_errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="row" data-visible="desktop">
+        <div class="col-md-6">
+            <div class="signup__section">
+                <label class="signup__label" for="first-name">First Name</label>
+                <input type="text" class="form-control" id="first-name" name="first_name" placeholder="Shub Raj" autocomplete="off">
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="signup__section">
+                <label class="signup__label" for="last-name">Last Name</label>
+                <input type="text" class="form-control" id="last-name" name="last_name" placeholder="Lama" autocomplete="off">
+            </div>
+        </div>
+    </div>
+    {% for error in form.username.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="signup__section">
+        <label class="signup__label" for="username">Username</label>
+        <input type="text" class="form-control" id="username" name="username" placeholder="shubraj" autocomplete="off">
+    </div>
+    {% for error in form.email.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="signup__section">
+        <label class="signup__label" for="email">Email Address</label>
+        <input type="text" class="form-control" id="email" name="email" placeholder="shuvraj1234@gmail.com" autocomplete="off">
+    </div>
+    {% for error in form.password2.errors %}
+    <div class="alert alert-danger">{{error}}</div>
+    {% endfor %}
+    <div class="signup__section">
+        <label class="signup__label" for="password">Password</label>
+        <div class="message-input">
+            <input type="password" class="form-control" id="password" name="password1" placeholder="*********">
+            <!-- <span class="message-input__strong">strong</span> -->
+        </div>
+    </div>
+    <div class="signup__section">
+        <label class="signup__label" for="password">Confirm Password</label>
+        <div class="message-input">
+            <input type="password" class="form-control" id="password" name="password2" placeholder="*********">
+            <!-- <span class="message-input__strong">strong</span> -->
+        </div>
+    </div>
+    <label class="signup__label" for="password">Human Verification</label>
+    <div class="g-recaptcha" data-sitekey="6LeqhmIaAAAAALijNVpQagT78wvzjGi8I05PencJ"></div>
+    <br/>
+    <div class="signup__checkbox">
+        <div class="row">
+            <div class="col-md-6">
+                <label class="signup__box">
+                <label class="custom-checkbox">
+                    <input type="checkbox" checked="checked" name="terms" value="True">
+                    <i></i>
+                </label>
+                <span>I agree to the <a href="{% url 'app_askbuddie:askbuddie_page' 'privacy' %}">Terms & Conditions.</a></span>
+                </label>
+            </div>
+            <div class="col-md-6" data-visible="desktop">
+                <label class="signup__box">
+                <label class="custom-checkbox">
+                    <input type="checkbox" name="send_newsletter" value="True">
+                    <i></i>
+                </label>
+                <span>Subscribe to newsletter</span>
+                </label>
+            </div>
+        </div>
+    </div>
+
+    <button type="submit" class="signup__btn-create btn btn--type-02">Create New Account</button>
+</form>
+{% endblock content %}

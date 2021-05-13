@@ -1,0 +1,228 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Create Thread - {{config.title}} {% endblock title %}
+{% block author %} {{request.get_host}} {% endblock author %}
+{% block content %}
+<div class="create">
+    <div class="create__head">
+        <div class="create__title"><img src="{% static 'askbuddie/fonts/icons/main/New_Topic.svg' %}" alt="New topic">Create New Thread</div>
+        <span><a href="{% url 'app_askbuddie:askbuddie_page' 'form-guidelines' %}">Forum Guidelines</a></span>
+    </div>
+    <form method="post">
+        {% csrf_token %}
+        {% for error in form.topic.errors %}
+            <div class="alert alert-danger">{{error}}</div>
+        {% endfor %}
+        <div class="create__section">
+            <label class="create__label" for="title">Thread Title</label>
+            <input type="text" class="form-control" id="title" name="topic" placeholder="Add here">
+        </div>
+          {% for error in form.category.errors %}
+            <div class="alert alert-danger">{{error}}</div>
+        {% endfor %}
+        <div class="row">
+            <div class="col-md-6">
+                <div class="create__section">
+                    <label class="create__label" for="category">Select Category</label>
+                    <label class="custom-select">
+                        <select id="category" name="category">
+                            <option>Choose</option>
+                            {% for category in category_choices %}
+                            <option value="{{category.1|lower}}">{{category.1}}</option>
+                            {% endfor %}
+                        </select>
+                    </label>
+                </div>
+            </div>
+            {% comment %} <div class="col-md-6"> 
+                <div class="create__section">
+                    <label class="create__label" for="sub-category">Select Sub Category</label>
+                    <label class="custom-select">
+                        <select id="sub-category">
+                            <option>Choose</option>
+                            <option>Choose #2</option>
+                            <option>Choose #3</option>
+                        </select>
+                    </label>
+                </div>
+            </div> {% endcomment %}
+        </div>
+          {% for error in form.description.errors %}
+            <div class="alert alert-danger">{{error}}</div>
+        {% endfor %}
+        <div class="create__section create__textarea">
+            <label class="create__label" for="description">Description</label>
+            {{form.description}}
+        </div>
+          {% for error in form.tags.errors %}
+            <div class="alert alert-danger">{{error}}</div>
+        {% endfor %}
+        <div class="create__section">
+            <label class="create__label" for="tags">Add Tags</label>
+            <input type="text" class="form-control" id="tags" name="tags" placeholder="e.g. nature, science">
+        </div>
+        {% comment %} <div class="create__advanced">
+            <div class="row">
+                <div class="col-lg-4 col-xl-4">
+                    <div class="create__section">
+                        <label class="create__label">Who can see this?</label>
+                        <div class="create__radio">
+                            <label class="create__box">
+                                <label class="custom-radio">
+                                    <input type="radio" name="can-see" checked="checked">
+                                    <i></i>
+                                </label>
+                                <span>Everyone</span>
+                            </label>
+                            <label class="create__box">
+                                <label class="custom-radio">
+                                    <input type="radio" name="can-see">
+                                    <i></i>
+                                </label>
+                                <span>Only Friends</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-3">
+                    <div class="create__section">
+                        <label class="create__label">Share on Social?</label>
+                        <div class="create__radio">
+                            <label class="create__box">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="share-social" checked="checked">
+                                    <i></i>
+                                </label>
+                                <i class="fa fa-facebook-square" aria-hidden="true"></i>
+                            </label>
+                            <label class="create__box">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="share-social" checked="checked">
+                                    <i></i>
+                                </label>
+                                <i class="fa fa-twitter" aria-hidden="true"></i>
+                            </label>
+                            <label class="create__box">
+                                <label class="custom-checkbox">
+                                    <input type="checkbox" name="share-social">
+                                    <i></i>
+                                </label>
+                                <i class="fa fa-google-plus" aria-hidden="true"></i>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-xl-5">
+                    <div class="create__section">
+                        <label class="create__label">Is this a Mature Thread?</label>
+                        <div class="create__radio">
+                            <label class="create__box">
+                                <label class="custom-radio">
+                                    <input type="radio" name="mature-thread">
+                                    <i></i>
+                                </label>
+                                <span>Yes</span>
+                            </label>
+                            <label class="create__box">
+                                <label class="custom-radio">
+                                    <input type="radio" name="mature-thread" checked="checked">
+                                    <i></i>
+                                </label>
+                                <span>No</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div> {% endcomment %}
+        <div class="create__footer">
+            <a href='' class="create__btn-cansel btn">Cancel</a>
+            <button type="submit" class="create__btn-create btn btn--type-02">Create Thread</button>
+        </div>
+    </form>
+</div>
+<div class="posts" data-visible="desktop">
+    <div class="posts__head">
+        <div class="posts__topic">Topic</div>
+        <div class="posts__category">Category</div>
+        <div class="posts__users">Users</div>
+        <div class="posts__replies">Replies</div>
+        <div class="posts__views">Views</div>
+        <div class="posts__activity">Activity</div>
+    </div>
+    <div class="posts__body">
+        {% for thread in threads %}
+        <div class="posts__item {% cycle 'bg-f2f4f6' '' 'posts__item--bg-gradient' %}">
+            <div class="posts__section-left">
+                <div class="posts__topic">
+                    <div class="posts__content">
+                        <a href="{% url 'askbuddie:askbuddie_thread' thread.slug %}">
+                            <h3>{{thread.topic}}</h3>
+                        </a>
+                        <div class="posts__tags tags">
+                            {% for tag in thread.forum_tag.all %}
+                            <a href="{% url 'askbuddie:askbuddie_tag' tag %}" class="{{tag|random_color_generator}}">{{tag}}</a> {% endfor %}
+                        </div>
+                    </div>
+                </div>
+                {%with category=thread.get_category_display|split:"," %}
+                <div class="posts__category"><a href="{% url 'askbuddie:askbuddie_category' category.0 %}" class="category"><i class="{{category.0|color}}"></i> {{category.0}}</a></div>
+                {% endwith %}
+            </div>
+            <div class="posts__section-right">
+                <div class="posts__users js-dropdown">
+                    {% for reply in thread.thread_reply.all|slice:"4" %} {% with user=reply.created_by %}{% ifchanged user %}
+                    <div>
+                        <a href="#" class="avatar"><img src="{{user.user_profile.profile.url}}" alt="{{user.first_name}}" data-dropdown-btn="{{user.id}}"></a>
+                        <div class="posts__users-dropdown dropdown dropdown--user dropdown--reverse-y" data-dropdown-list="{{user.id}}">
+                            <div class="dropdown__user">
+                                <a href="#" class="dropdown__user-label"><img src="{{user.user_profile.profile.url}}" alt="{{user.first_name}}"></a>
+                                <div class="dropdown__user-nav">
+                                    <a href="#"><i class="icon-Add_User"></i></a>
+                                    <a href="#"><i class="icon-Message"></i></a>
+                                </div>
+                                <div class="dropdown__user-info">
+                                    <a href="#">{{user.get_full_name}}</a>
+                                    <p>Last Online: {{user.last_login|user_last_online_timesince}}.<br/> Joined: {{user.date_joined|date:"d M,Y"}}.</p>
+                                </div>
+                                <div class="dropdown__user-icons">
+                                    <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Intermediate.svg' %}" alt="user-icon"></a>
+                                    <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Bot.svg' %}" alt="user-icon"></a>
+                                    <a href="#"><img src="{% static 'askbuddie/fonts/icons/badges/Animal_Lover.svg' %}" alt="user-icon"></a>
+                                </div>
+                                <div class="dropdown__user-statistic">
+                                    <div>Threads - <span>{{user.user_thread.count}}</span></div>
+                                    <div>Posts - <span>{{user.user_reply.count}}</span></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    {% endifchanged %} {% endwith %} {% endfor %}
+                    <!--
+                        add more user here
+                    -->
+                </div>
+                <div class="posts__replies">{{thread.thread_reply.count}}</div>
+                <div class="posts__views">{% if thread.views >= 1000 %}{{thread.views|div:"1000"}}K{% else %} {{thread.views}}{% endif %}</div>
+                <div class="posts__activity">{{thread|activity}}</div>
+            </div>
+        </div>
+        {% empty %}
+        {% block extra_head %}
+        <style>
+            .card:hover{
+            transform: scale(1.05);
+        box-shadow: 0 10px 20px rgba(0,0,0,.12), 0 4px 8px rgba(0,0,0,.06);  cursor: pointer;}
+        </style>
+        {% endblock extra_head %}
+        <div class="card m-4 text-center mx-auto">
+            <div class="card-header text-dark">
+                No Thread Found
+            </div>
+        </div>
+        {% endfor %}
+        
+    </div>
+</div>
+
+{% endblock content %}
